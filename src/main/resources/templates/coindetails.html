@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="/static/clickablerow.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title th:text="${cryptocoin.name} + ' Details - KouLGaR'"></title>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+</head>
+<body>
+<div class="container">
+
+    <h3 th:text="${cryptocoin.name} + ' Details'"></h3>
+    <hr>
+
+    </a>
+    <table class="table table-bordered table-striped" th:object="${cryptocoin}" border="1">
+        <tbody>
+        <thead class="thead-dark">
+        <tr>
+            <th th:width="250px">Coin</th>
+            <th> Coin Details</th>
+        </tr>
+        <tr>
+            <td>Rank</td>
+            <td th:text="${cryptocoin.rank}" ></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td th:text="${cryptocoin.name}" ></td>
+        </tr>
+        <tr>
+            <td>Symbol</td>
+            <td th:text="${cryptocoin.symbol}" ></td>
+        </tr>
+        <tr>
+            <td>Price (USD)</td>
+            <td th:text="${cryptocoin.priceUsd}" ></td>
+        </tr>
+        <tr>
+            <td>Price (BTC)</td>
+            <td th:text="${cryptocoin.priceBtc}" ></td>
+        </tr>
+        <tr>
+            <td>Daily Volume (USD)</td>
+            <td th:text="${cryptocoin.dailyVolumeUsd}" ></td>
+        </tr>
+        <tr>
+            <td>Market Cap (USD)</td>
+            <td th:text="${cryptocoin.marketCapUsd}" ></td>
+        </tr>
+        <tr>
+            <td>Available Supply</td>
+            <td th:text="${cryptocoin.availableSupply}" ></td>
+        </tr>
+        <tr>
+            <td>Total Supply</td>
+            <td th:text="${cryptocoin.totalSupply}" ></td>
+        </tr>
+        <tr>
+            <td>Max. Supply</td>
+            <td th:text="${cryptocoin.maxSupply}" ></td>
+        </tr>
+        <tr>
+            <td>Percent Change (Hourly)</td>
+            <td th:text="${cryptocoin.percentChangeHourly}" ></td>
+        </tr>
+        <tr>
+            <td>Percent Change (Daily)</td>
+            <td th:text="${cryptocoin.percentChangeDaily}" ></td>
+        </tr>
+        <tr>
+            <td>Percent Change (Weekly)</td>
+            <td th:text="${cryptocoin.percentChangeWeekly}" ></td>
+        </tr>
+    </thead>
+    </tbody>
+    </table>
+
+    <button type="submit" value="Go Back" class="btn btn-primary" onclick="goBack()">Go Back</button>
+
+</div>
+
+</body>
+</html>
