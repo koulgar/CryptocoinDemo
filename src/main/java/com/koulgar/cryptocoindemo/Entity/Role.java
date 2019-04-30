@@ -2,6 +2,7 @@ package com.koulgar.cryptocoindemo.Entity;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "role")
@@ -14,15 +15,6 @@ public class Role {
 
     @Column(name = "name")
     private String name;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "users_role",
-            joinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "user_id", referencedColumnName = "id"))
-    private Collection<User> users;
 
     public Integer getId() {
         return id;
@@ -40,15 +32,11 @@ public class Role {
         this.name = name;
     }
 
-    public Collection<User> getUsers() {
-        return users;
+    public Role(String name) {
+        this.name = name;
     }
 
-    public void setUsers(Collection<User> users) {
-        this.users = users;
-    }
-
-    public Role(String role_user) {
+    public Role() {
     }
 
     @Override
@@ -56,7 +44,6 @@ public class Role {
         return "Role{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", users=" + users +
                 '}';
     }
 }

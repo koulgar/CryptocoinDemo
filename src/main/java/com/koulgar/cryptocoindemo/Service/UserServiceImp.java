@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import com.koulgar.cryptocoindemo.Dao.RoleDao;
 import com.koulgar.cryptocoindemo.Dao.UserDao;
 import com.koulgar.cryptocoindemo.Entity.FormUser;
 import com.koulgar.cryptocoindemo.Entity.Role;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,9 @@ public class UserServiceImp implements UserService {
     private UserDao userDao;
 
     @Autowired
+    private RoleDao roleDao;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
 
@@ -31,14 +34,14 @@ public class UserServiceImp implements UserService {
         return userDao.findByUsername(username);
     }
 
-    @Override
     public void save(FormUser formUser) {
         User user = new User();
         user.setFirstName(formUser.getFirstName());
         user.setLastName(formUser.getLastName());
         user.setEmail(formUser.getEmail());
+        user.setUsername(formUser.getUsername());
         user.setPassword(passwordEncoder.encode(formUser.getPassword()));
-        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
+        user.setRoles(Arrays.asList(roleDao.findByName("USER")));
         userDao.save(user);
     }
 
@@ -48,7 +51,7 @@ public class UserServiceImp implements UserService {
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(),
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),
                 user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
     }

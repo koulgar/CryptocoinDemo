@@ -12,9 +12,9 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/showLoginPage")
+    @GetMapping("/login")
     public String login(Model model) {
-        return "userlogin";
+        return "login";
     }
 
     @GetMapping("/user")

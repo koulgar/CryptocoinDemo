@@ -1,6 +1,7 @@
 package com.koulgar.cryptocoindemo.Entity;
 
 import com.koulgar.cryptocoindemo.Validator.FieldMatch;
+import com.koulgar.cryptocoindemo.Validator.ValidEmail;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,6 +28,7 @@ public class FormUser {
     @Size(min = 1, message = "is required")
     private String lastName;
 
+    @ValidEmail
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String email;
