@@ -4,9 +4,11 @@ import com.koulgar.cryptocoindemo.Entity.Cryptocoin;
 import com.koulgar.cryptocoindemo.Service.CryptocoinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,7 +25,7 @@ public class CryptocoinController {
     public String listCoins(HttpServletRequest request, Model model){
 
         int page = 0; //default page number is 0 (yes it is weird)
-        int size = 15; //default page size is 10
+        int size = 20; //default page size is 10
 
         if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
             page = Integer.parseInt(request.getParameter("page")) - 1;
@@ -35,7 +37,6 @@ public class CryptocoinController {
 
         model.addAttribute("cryptocoins", cryptocoinService.findAll(PageRequest.of(page, size)));
         return "coin-list";
-
     }
 
     @GetMapping("/list/details")
@@ -50,6 +51,13 @@ public class CryptocoinController {
         // send over to our form
         return "coindetails";
     }
+
+    @RequestMapping("/search")
+    public String searchCoins(@RequestParam("cryptocoins")String coinName, Model model){
+        model.addAttribute("cryptocoins", cryptocoinService.findBySearch(coinName));
+        return "coin-list-search";
+    }
+
 
 
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 <head>
     <!-- Required meta tags -->
@@ -14,35 +15,41 @@
 
 </head>
 <body>
+<br>
+<br>
+<br>
+<br>
+<div th:replace="fragments/navbar :: navbar"></div>
 
 <div class="container">
-
-    <h3>Top 100 - Cryptocoin List</h3>
-    <hr>
-
-    <!--Add a button-->
-    </a>
-    <table id="table-row" class="table table-bordered table-sm table-condensed table-hover">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">Rank</th>
-            <th scope="col">Coin Name</th>
-            <th scope="col">Symbol</th>
-            <th scope="col">Price USD</th>
-            <th scope="col">Price Bitcoin</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr th:each="tempCryptocoin : ${cryptocoins}" >
-            <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.rank}"     class="btn btn-light" ></a></td>
-            <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.name}"     class="btn btn-light" ></a></td>
-            <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.symbol}"   class="btn btn-light" ></a></td>
-            <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.priceUsd}" class="btn btn-light" ></a></td>
-            <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.priceBtc}" class="btn btn-light" ></a></td>
-        </tr>
-        </tbody>
-    </table>
+    <h3 align="center">Top 100 - Cryptocoin List</h3>
+    <form th:align="right" th:object="${cryptocoins}" th:action="@{/coins/search}" method="get">
+            <input type="text" name="cryptocoins" id="cryptocoins" placeholder="Coin Name or Symbol"/>
+            <input type="submit" value="Search"class="btn btn-dark"/>
+            <br>
+            <br>
+        </form>
+            <div class="container">
+            <table id="table-row" class="table table-bordered table-sm table-condensed table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Coin Name</th>
+                    <th scope="col">Symbol</th>
+                    <th scope="col">Price USD</th>
+                    <th scope="col">Price Bitcoin</th>
+                </tr>
+                </thead>
+                <tr th:each="tempCryptocoin : ${cryptocoins}" >
+                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.rank}"     class="btn btn-light" ></a></td>
+                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.name}"     class="btn btn-light" ></a></td>
+                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.symbol}"   class="btn btn-light" ></a></td>
+                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.priceUsd}" class="btn btn-light" ></a></td>
+                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.priceBtc}" class="btn btn-light" ></a></td>
+                </tr>
+            </table>
+        </div>
+</div>
     <!-- cryptocoins pagination -->
     <nav aria-label="Pagination" th:if="${cryptocoins.totalPages gt 0}">
         <ul class="pagination justify-content-center font-weight-bold">

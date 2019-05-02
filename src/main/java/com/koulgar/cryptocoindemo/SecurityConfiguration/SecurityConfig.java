@@ -1,7 +1,6 @@
 package com.koulgar.cryptocoindemo.SecurityConfiguration;
 
 import com.koulgar.cryptocoindemo.Service.UserService;
-import com.koulgar.cryptocoindemo.Service.UserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,16 +17,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers(
-                        "/registration**",
-                        "/js/**",
-                        "/css/**",
-                        "/img/**",
-                        "/webjars/**").permitAll()
+                .antMatchers("/","/registration","/login","/coins/list","/coins/search","/image**").permitAll()
+                .antMatchers("/coins/list**").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
