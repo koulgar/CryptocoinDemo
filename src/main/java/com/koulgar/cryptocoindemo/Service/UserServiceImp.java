@@ -35,14 +35,32 @@ public class UserServiceImp implements UserService {
     }
 
     public void save(FormUser formUser) {
-        User user = new User();
+        User user;
+        if(userDao.findByUsername(formUser.getUsername())!=null) {
+            user = userDao.findByUsername(formUser.getUsername());
+        } else {
+            user = new User();
+        }
+        user.setId(formUser.getId());
         user.setFirstName(formUser.getFirstName());
         user.setLastName(formUser.getLastName());
         user.setEmail(formUser.getEmail());
         user.setUsername(formUser.getUsername());
         user.setPassword(passwordEncoder.encode(formUser.getPassword()));
-        user.setRoles(Arrays.asList(roleDao.findByName("USER")));
+        if(user.getRoles()==null) {
+            user.setRoles(Arrays.asList(roleDao.findByName("USER")));
+        }
         userDao.save(user);
+    }
+
+    @Override
+    public User findById(int id) {
+        return userDao.findById(id);
+    }
+
+    @Override
+    public void deleteUserById(Integer id) {
+        userDao.deleteById(id);
     }
 
     @Override

@@ -8,6 +8,9 @@ import javax.validation.constraints.Size;
 
 @FieldMatch.List({@FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")})
 public class FormUser {
+
+    private Integer id;
+
     @NotNull(message = "is required")
     @Size(min = 1, message = "is required")
     private String username;
@@ -83,5 +86,13 @@ public class FormUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

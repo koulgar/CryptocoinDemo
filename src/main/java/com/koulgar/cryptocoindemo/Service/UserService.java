@@ -9,4 +9,10 @@ public interface UserService extends UserDetailsService {
     User findByUsername(String username);
 
     void save(FormUser formUser);
+
+    User findById(int id);
+
+    void deleteUserById(Integer id);
+
+//    void update(FormUser formUser);
 }

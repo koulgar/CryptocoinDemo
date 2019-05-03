@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<div th:replace="fragments/navbar :: imports"></div>
+<div th:replace="fragments/navbar :: background"></div>
+<div th:replace="fragments/navbar :: navbar"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+</head>
+<body>
+<br>
+<br>
+<br>
+<br>
+<div class="card bg-light mb-3 mx-auto text-left" style="width: 60rem;">
+    <div class="card-header" th:align="center"><h4 th:text="${#strings.capitalize(#authentication.getPrincipal().getUsername())} + ' Profile'"></h4></div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped" th:object="${userDetails}" border="1">
+            <tbody>
+            <thead class="thead-dark">
+            <tr>
+                <th th:width="250px">User</th>
+                <th> User Details</th>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td th:text="${userDetails.username}" ></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td th:type="password">********</td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td th:text="${userDetails.firstName}"></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td th:text="${userDetails.lastName}"></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td th:text="${userDetails.email}"></td>
+            </tr>
+            </thead>
+            </tbody>
+        </table>
+
+            <input type="url" name="login-submit" class="btn btn-primary" value="Update"
+                   onclick="window.location.href='/user/update'"/>
+            <input type="url" name="login-submit" class="btn btn-danger" value="Delete"
+                   onclick="window.location.href='/user/delete'; if (!(confirm('Are you sure you want to delete this user?'))) return false"/>
+    </div>
+</div>
+
+</body>
+</html>

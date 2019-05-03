@@ -1,31 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-
+<div th:replace="fragments/navbar :: imports"></div>
+<div th:replace="fragments/navbar :: background"></div>
+<div th:replace="fragments/navbar :: navbar"></div>
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
     <title>Coins List - KouLGaR</title>
     <meta http-equiv="refresh" content="60" >
-
 </head>
 <body>
 <br>
 <br>
 <br>
 <br>
-<div th:replace="fragments/navbar :: navbar"></div>
-
+<div class="card bg-light mb-3 mx-auto text-left" style="width: 60rem;">
+    <div class="card-header" th:align="center"><h4>Top 100 - Cryptocoin List</h4></div>
+    <div class="card-body">
 <div class="container">
-    <h3 align="center">Top 100 - Cryptocoin List</h3>
     <form th:align="right" th:object="${cryptocoins}" th:action="@{/coins/search}" method="get">
             <input type="text" name="cryptocoins" id="cryptocoins" placeholder="Coin Name or Symbol"/>
-            <input type="submit" value="Search"class="btn btn-dark"/>
+            <button type="submit" value="Search"class="btn btn-dark">Search</button>
             <br>
             <br>
         </form>
@@ -74,6 +68,7 @@
             </li>
         </ul>
     </nav>
+    </div>
 </div>
 </body>
 </html>
