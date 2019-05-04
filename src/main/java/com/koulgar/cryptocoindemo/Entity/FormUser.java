@@ -6,7 +6,7 @@ import com.koulgar.cryptocoindemo.Validator.ValidEmail;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@FieldMatch.List({@FieldMatch(first = "password", second = "matchingPassword", message = "The password fields must match")})
+@FieldMatch.List({@FieldMatch(first = "password", second = "matchingPassword", message = "The passwords must match")})
 public class FormUser {
 
     private Integer id;

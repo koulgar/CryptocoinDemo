@@ -17,10 +17,10 @@
 <br>
 <br>
 <br>
-<div class="card bg-light mb-3 mx-auto text-left" style="width: 32rem;">
+<div class="card bg-light mb-3 mx-auto text-left" style="width: 32rem;" ) th:if="${#strings.contains(#httpServletRequest.requestURI, '/user/update')}">
     <div class="card-header"><h4>Update User</h4></div>
     <div class="card-body">
-        <div class="container">
+        <div class="container" >
             <div class="row">
                 <div class="col-md-12 col-md-offset-3">
 
@@ -84,7 +84,7 @@
                                th:each="error : ${#fields.errors('matchingPassword')}"
                                th:text="${error}">Validation error</p>
                         </div>
-                            <input type="submit" name="login-submit" id="login-submit" class="btn btn-primary" value="Update" />
+                            <input type="submit" name="login-submit" id="login-submit" class="btn btn-primary" value="Save" />
                             <a th:href="@{/user/profile}"
                                class="btn btn-danger"
                                onclick="if (!(confirm('Are you sure you want to cancel editing this user?'))) return false">
@@ -96,6 +96,46 @@
         </div>
     </div>
 </div>
+
+<div class="card bg-light mb-3 mx-auto text-left" style="width: 32rem;" ) th:if="${#strings.contains(#httpServletRequest.requestURI, '/user/delete')}">
+    <div class="card-header"><h4>Delete User</h4></div>
+    <div class="card-body">
+        <div class="container" >
+            <div class="row">
+                <div class="col-md-12 col-md-offset-3">
+
+                    <form th:action="@{/user/delete}" th:object="${formUser}" method="post">
+
+                        <div th:if="${param.success}">
+                            <div class="alert alert-info">You've successfully updated your profile!</div>
+                        </div>
+
+                            <input th:type="hidden" id="id" class="form-control" th:field="*{id}" />
+                            <input th:type="hidden" id="firstName" class="form-control" th:field="*{firstName}" />
+                            <input th:type="hidden" id="lastName" class="form-control" th:field="*{lastName}" />
+                            <input th:type="hidden" id="email" class="form-control" th:field="*{email}"/>
+                            <input th:type="hidden" id="username" class="form-control" th:field="*{username}" />
+                        <div class="form-group" >
+                            <label for="password" class="control-label">Password</label>
+                            <input id="password" class="form-control" type="password" th:field="*{password}"/>
+                            <p class="alert alert-danger" th:each="error : ${#fields.errors('password')}"
+                               th:text="${error}"></p>
+                        </div>
+                            <input th:type="hidden" id="matchingPassword" class="form-control"
+                                                        type="password" th:field="*{matchingPassword}" />
+                        <input type="submit" name="delete-submit" id="delete-submit" class="btn btn-danger" value="Delete" />
+                        <a th:href="@{/user/profile}"
+                           class="btn btn-danger"
+                           onclick="if (!(confirm('Are you sure you want to cancel editing this user?'))) return false">
+                            Cancel
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
 
 

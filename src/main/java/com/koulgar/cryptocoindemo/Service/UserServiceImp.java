@@ -1,5 +1,6 @@
 package com.koulgar.cryptocoindemo.Service;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -61,6 +62,19 @@ public class UserServiceImp implements UserService {
     @Override
     public void deleteUserById(Integer id) {
         userDao.deleteById(id);
+    }
+
+    @Override
+    public FormUser userToFormUser(User user) {
+        FormUser formUser = new FormUser();
+        formUser.setId(user.getId());
+        formUser.setUsername(user.getUsername());
+        formUser.setEmail(user.getEmail());
+        formUser.setPassword(user.getPassword());
+        formUser.setMatchingPassword(user.getPassword());
+        formUser.setFirstName(user.getFirstName());
+        formUser.setLastName(user.getLastName());
+        return formUser;
     }
 
     @Override

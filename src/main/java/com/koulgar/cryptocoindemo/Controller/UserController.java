@@ -4,6 +4,7 @@ import com.koulgar.cryptocoindemo.Entity.FormUser;
 import com.koulgar.cryptocoindemo.Entity.User;
 import com.koulgar.cryptocoindemo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @GetMapping("/profile")
     public String userProfile(Principal principal,Model model) {
         String username = principal.getName();
@@ -28,15 +32,8 @@ public class UserController {
 
     @GetMapping("/update")
     public String showFormForUpdate(Principal principal, Model model){
-        FormUser formUser = new FormUser();
         User user = userService.findByUsername(principal.getName());
-        formUser.setId(user.getId());
-        formUser.setUsername(user.getUsername());
-        formUser.setEmail(user.getEmail());
-        formUser.setPassword(user.getPassword());
-        formUser.setMatchingPassword(user.getPassword());
-        formUser.setFirstName(user.getFirstName());
-        formUser.setLastName(user.getLastName());
+        FormUser formUser = userService.userToFormUser(user);
         model.addAttribute("formUser",formUser);
 
         return "user-update-form";
@@ -53,23 +50,32 @@ public class UserController {
         return "redirect:/user/update?success";
     }
 
-    @RequestMapping("/delete")
-    public String deleteUserAccount(Principal principal){
-        userService.deleteUserById(userService.findByUsername(principal.getName()).getId());
-        return "redirect:/login?delete";
+    @GetMapping("/delete")
+    public String deleteUserAccount(Model model,Principal principal){
+        User user = userService.findByUsername(principal.getName());
+        FormUser formUser = userService.userToFormUser(user);
+        formUser.setPassword(null);
+        model.addAttribute("formUser",formUser);
+        return "user-update-form";
+    }
+
+    @PostMapping("/delete")
+    public String deleteUserAccountConfirm(@ModelAttribute("formUser") FormUser formUser,
+                                           BindingResult result) {
+
+        User user = userService.findByUsername(formUser.getUsername());
+        if (formUser.getPassword()==null){
+            result.rejectValue("password", null, "Password cannot be null");
+        } else if (!(passwordEncoder.matches(formUser.getPassword(),user.getPassword()))) {
+            result.rejectValue("password", null, "Password is not correct");
+        }
+
+        if (result.hasErrors()) {
+            return "user-update-form";
+        }
+        userService.deleteUserById(user.getId());
+        return null;
     }
 }
 
-    /*TODO  1-Add mapping for User Profile (/user/profile)
-                a-take user data from mySQL database by searching for username
-                b-write user data to /user/profile page
-                c-add profile edit feature to /user/profile/edit
-                d-add save button and return to /user/profile page
-            2-Add mapping for Admin Panel (/admin/panel)
-                a-admin should see all registrated users in a list
-                    -take all user list from database and list them in /admin/panel
-                b-admin should edit user information such as username,email,firstName,lastName,password
-                    -upon clicking update button which belongs to user, user profile should be
-                        editable in /admin/panel={userid} (by getmapping)
-     */
 
