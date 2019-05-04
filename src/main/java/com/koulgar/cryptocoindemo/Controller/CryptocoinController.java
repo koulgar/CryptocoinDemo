@@ -41,20 +41,25 @@ public class CryptocoinController {
 
     @GetMapping("/list/details")
     public String listCoinDetails(@RequestParam("coinRank") int rank, Model model){
-
-        // get the employee from the service
         Cryptocoin cryptocoin = cryptocoinService.findByRank(rank);
-
-        // set employee as a model attribute to pre-populate the form
         model.addAttribute("cryptocoin", cryptocoin);
-
-        // send over to our form
         return "coindetails";
     }
 
     @RequestMapping("/search")
-    public String searchCoins(@RequestParam("cryptocoins")String coinName, Model model){
-        model.addAttribute("cryptocoins", cryptocoinService.findBySearch(coinName));
+    public String searchCoins(@RequestParam("search")String search,HttpServletRequest request, Model model){
+        int page = 0; //default page number is 0 (yes it is weird)
+        int size = 20; //default page size is 10
+
+        if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
+            page = Integer.parseInt(request.getParameter("page")) - 1;
+        }
+
+        if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
+            size = Integer.parseInt(request.getParameter("size"));
+        }
+        model.addAttribute("search",search);
+        model.addAttribute("cryptocoins", cryptocoinService.findBySearch(search,PageRequest.of(page, size)));
         return "coin-list-search";
     }
 

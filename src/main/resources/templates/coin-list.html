@@ -17,8 +17,8 @@
     <div class="card-header" th:align="center"><h4>Top 100 - Cryptocoin List</h4></div>
     <div class="card-body">
 <div class="container">
-    <form th:align="right" th:object="${cryptocoins}" th:action="@{/coins/search}" method="get">
-            <input type="text" name="cryptocoins" id="cryptocoins" placeholder="Coin Name or Symbol"/>
+    <form th:align="right" th:object="${search}" th:action="@{/coins/search}" method="get">
+            <input type="text" name="search" id="search" placeholder="Coin Name or Symbol"/>
             <button type="submit" value="Search"class="btn btn-dark">Search</button>
             <br>
             <br>

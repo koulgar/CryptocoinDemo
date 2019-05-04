@@ -49,7 +49,7 @@ public class CryptocoinService {
         return restTemplate.getForObject("https://api.coinmarketcap.com/v1/ticker/",Cryptocoin[].class);
     }
 
-    public List<Cryptocoin> findBySearch(String coinName) {
-        return cryptocoinDao.findBySearch(coinName);
+    public Page<Cryptocoin> findBySearch(String search,Pageable pageable) {
+        return cryptocoinDao.findBySearch(search,pageable);
     }
 }

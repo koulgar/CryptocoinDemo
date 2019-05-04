@@ -11,6 +11,8 @@ import com.koulgar.cryptocoindemo.Entity.FormUser;
 import com.koulgar.cryptocoindemo.Entity.Role;
 import com.koulgar.cryptocoindemo.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,6 +57,18 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public void update(FormUser formUser) {
+        User user = userDao.findById(formUser.getId());
+        user.setFirstName(formUser.getFirstName());
+        user.setLastName(formUser.getLastName());
+        user.setEmail(formUser.getEmail());
+        if(user.getRoles()==null) {
+            user.setRoles(Arrays.asList(roleDao.findByName("USER")));
+        }
+        userDao.save(user);
+    }
+
+    @Override
     public User findById(int id) {
         return userDao.findById(id);
     }
@@ -76,6 +90,12 @@ public class UserServiceImp implements UserService {
         formUser.setLastName(user.getLastName());
         return formUser;
     }
+
+    @Override
+    public Page<User> findAll(Pageable pageable) {
+        return userDao.findAll(pageable);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -22,5 +22,5 @@ public interface CryptocoinDao extends JpaRepository<Cryptocoin,Integer> {
     Page<Cryptocoin> findAll(Pageable pageable);
 
     @Query("Select c from Cryptocoin c where c.name like %?1% or c.symbol like %?1%")
-    List<Cryptocoin> findBySearch(String coinName);
+    Page<Cryptocoin> findBySearch(String search,Pageable pageable);
 }
