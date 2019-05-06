@@ -74,7 +74,7 @@ public class UserController {
             return "user-update-form";
         }
         userService.deleteUserById(user.getId());
-        return null;
+        return "redirect:/user/logout";
     }
 }
 

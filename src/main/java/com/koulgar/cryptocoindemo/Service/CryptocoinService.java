@@ -52,4 +52,6 @@ public class CryptocoinService {
     public Page<Cryptocoin> findBySearch(String search,Pageable pageable) {
         return cryptocoinDao.findBySearch(search,pageable);
     }
+
+
 }

@@ -4,22 +4,13 @@ import com.koulgar.cryptocoindemo.Validator.FieldMatch;
 import com.koulgar.cryptocoindemo.Validator.ValidEmail;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-@FieldMatch.List({@FieldMatch(first = "password", second = "matchingPassword", message = "The passwords must match")})
-public class FormUser {
+public class UpdateUser {
 
     private int id;
 
     @NotBlank(message = "cannot be empty")
     private String username;
-
-    @NotBlank(message = "cannot be empty")
-    private String password;
-
-    @NotBlank(message = "cannot be empty")
-    private String matchingPassword;
 
     @NotBlank(message = "cannot be empty")
     private String firstName;
@@ -32,7 +23,7 @@ public class FormUser {
     private String email;
 
 
-    public FormUser() {
+    public UpdateUser() {
     }
 
     public String getUsername() {
@@ -41,22 +32,6 @@ public class FormUser {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getMatchingPassword() {
-        return matchingPassword;
-    }
-
-    public void setMatchingPassword(String matchingPassword) {
-        this.matchingPassword = matchingPassword;
     }
 
     public String getFirstName() {

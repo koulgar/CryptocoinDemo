@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,5 +23,8 @@ public interface UserDao extends JpaRepository<User,Integer> {
     @Transactional
     @Modifying
     void deleteById(Integer id);
+
+    @Query("Select u from User u where u.firstName like %?1% or u.lastName like %?1% or u.username like %?1% or u.email like %?1%")
+    Page<User> findBySearch(String search,Pageable pageable);
 
 }

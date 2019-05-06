@@ -60,7 +60,7 @@ public class CryptocoinController {
         }
         model.addAttribute("search",search);
         model.addAttribute("cryptocoins", cryptocoinService.findBySearch(search,PageRequest.of(page, size)));
-        return "coin-list-search";
+        return "coin-list";
     }
 
 

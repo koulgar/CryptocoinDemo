@@ -14,19 +14,22 @@
 <br>
 <br>
 
-<div class="card bg-light mb-3 mx-auto text-left" style="width: 100rem;">
+<div class="card bg-light mb-3 mx-auto text-left" style="width: 90rem;">
     <div class="card-header" th:align="center"><h4>User List</h4></div>
     <div class="card-body">
 <div class="container">
     <div th:if="${param.success}">
         <div class="alert alert-info">You've successfully updated profile!</div>
     </div>
-<!--    <form th:align="right" th:object="${users}" th:action="@{/admin/userlist/search}" method="get">-->
-<!--            <input type="text" name="users" id="users" placeholder="Coin Name or Symbol"/>-->
-<!--            <button type="submit" value="Search" class="btn btn-dark">Search</button>-->
-<!--            <br>-->
-<!--            <br>-->
-<!--        </form>-->
+    <div th:if="${param.delsuccess}">
+        <div class="alert alert-info">You've successfully deleted user profile!</div>
+    </div>
+    <form th:align="right" th:object="${search}" th:action="@{/admin/userlist/search}" method="get">
+            <input type="text" name="search" id="search" placeholder="User Name"/>
+            <button type="submit" value="Search" class="btn btn-dark">Search</button>
+            <br>
+            <br>
+        </form>
             <div class="container">
             <table id="table-row" class="table table-bordered table-sm table-condensed table-hover">
                 <thead class="thead-dark">
@@ -37,6 +40,7 @@
                     <th>Username</th>
                     <th>Password</th>
                     <th>Email</th>
+                    <th>Roles</th>
                     <th>Action</th>
 
                 </tr>
@@ -48,14 +52,16 @@
                     <td><a th:text="${user.username}"></a></td>
                     <td><a>********</a></td>
                     <td><a th:text="${user.email}"></a></td>
+                    <td><div th:each="roles : ${user.getRoles()}" th:text="${#strings.listJoin((roles.name),',')}"></div></td>
                     <td><a class="btn btn-primary" th:href="@{/admin/userlist/update(userId=${user.id})}">Update</a>
-                        <a class="btn btn-danger" th:href="@{/admin/userlist/delete(userId=${user.id})}">Update</a></td>
+                        <a class="btn btn-danger" th:href="@{/admin/userlist/delete(userId=${user.id})}">Delete</a></td>
                 </tr>
             </table>
         </div>
 </div>
     <!-- cryptocoins pagination -->
-    <nav aria-label="Pagination" th:if="${users.totalPages gt 0}">
+        <div th:if="${#strings.contains(#httpServletRequest.requestURI, 'list')} and ${!#strings.contains(#httpServletRequest.requestURI, 'search')}">
+        <nav aria-label="Pagination" th:if="${users.totalPages gt 0}">
         <ul class="pagination justify-content-center font-weight-bold">
             <li class="page-item" th:classappend="${users.number eq 0} ? 'disabled'">
                 <a class="page-link"
@@ -78,28 +84,34 @@
             </li>
         </ul>
     </nav>
+        </div>
+
+        <div th:if="${#strings.contains(#httpServletRequest.requestURI, 'search')}">
+            <nav aria-label="Pagination" th:if="${users.totalPages gt 0}">
+                <ul class="pagination justify-content-center font-weight-bold">
+                    <li class="page-item" th:classappend="${users.number eq 0} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{'/admin/userlist/search?page='+${users.number lt 2 ? 1 : users.number}+'&amp;search='+${search}}"
+                           aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:classappend="${i eq users.number + 1} ? 'active'"
+                        th:each="i : ${#numbers.sequence( 1, users.totalPages, 1)}">
+                        <a class="page-link" th:href="@{'/admin/userlist/search?page='+${i}+'&amp;search='+${search}}" th:text="${i}"
+                           th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${users.number + 1 eq users.totalPages} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{'/admin/userlist/search?page='+${users.number + 2}+'&amp;search='+${search}}"
+                           aria-label="Next" title="Next Page" data-toggle="tooltip">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 </div>
 </body>
 </html>
-
-<!--th:href="@{/listCoinDetails(coinRank=${tempCryptocoin.rank})}"-->
-<!--th:href="@{/listCoinDetails(coinRank=${tempCryptocoin.rank})}"-->
-<!--th:href="@{/listCoinDetails(coinRank=${tempCryptocoin.rank})}"-->
-<!--th:href="@{/listCoinDetails(coinRank=${tempCryptocoin.rank})}"-->
-<!--th:href="@{/listCoinDetails(coinRank=${tempCryptocoin.rank})}"-->
-
-<!--class="btn btn-dark"-->
-<!--class="btn btn-dark"-->
-<!--class="btn btn-dark"-->
-<!--class="btn btn-dark"-->
-<!--class="btn btn-dark"-->
-
-<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>-->
-<!--<script type="text/javascript">-->
-<!--    jQuery(document).ready(function($) {-->
-<!--        $(".clickable-row").click(function() {-->
-<!--            window.location = $(this).data("th-href");-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->

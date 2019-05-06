@@ -25,9 +25,7 @@ public class CryptocoindemoApplication {
 
     @Scheduled(fixedRate = 60*1000)
     public void run(){
-        logger.info("Save initialized.");
         cryptocoinService.saveCryptocoins();
-        logger.info("Save completed!");
     }
 
 }
