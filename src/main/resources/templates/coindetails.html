@@ -82,7 +82,9 @@
                         </thead>
                     </tbody>
                 </table>
-                <button type="submit" value="Go Back" class="btn btn-primary" onclick="goBack()">Go Back</button>
+                <a th:object="${following}" th:if="${following}" th:href="@{/user/addFavorite(coinRank=${cryptocoin.rank})}" class="btn btn-primary">Unfollow</a>
+                <a th:object="${follow}" th:if="${follow}" th:href="@{/user/addFavorite(coinRank=${cryptocoin.rank})}" class="btn btn-primary">Follow</a>
+                <button type="submit" value="Go Back" class="btn btn-danger" onclick="goBack()">Go Back</button>
             </div>
         </div>
     </div>

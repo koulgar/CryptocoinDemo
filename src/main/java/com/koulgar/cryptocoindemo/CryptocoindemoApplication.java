@@ -41,7 +41,7 @@ public class CryptocoindemoApplication {
 //                System.out.println(cryptocoins);
 //                System.out.println("Coins Saved!");
 //            } catch (IOException exc){
-//                System.out.println("Unable to save coins: "+exc.getMessage());
+//                System.out.println("Unable to saveFormUser coins: "+exc.getMessage());
 //            }
 
 //https://api.coinmarketcap.com/v1/ticker/

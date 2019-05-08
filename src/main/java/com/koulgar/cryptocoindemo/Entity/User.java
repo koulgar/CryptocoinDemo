@@ -37,6 +37,15 @@ public class User {
                     name = "role_id"))
     private List<Role> roles;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.DETACH})
+    @JoinTable(
+            name = "user_has_cryptocoin",
+            joinColumns = @JoinColumn(
+                    name = "user_id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "cryptocoin_coin_rank"))
+    private List<Cryptocoin> cryptocoinList;
+
     public Integer getId() {
         return id;
     }
@@ -93,6 +102,14 @@ public class User {
         this.roles = roles;
     }
 
+    public List<Cryptocoin> getCryptocoinList() {
+        return cryptocoinList;
+    }
+
+    public void setCryptocoinList(List<Cryptocoin> cryptocoinList) {
+        this.cryptocoinList = cryptocoinList;
+    }
+
     public User() {
     }
 
@@ -122,6 +139,9 @@ public class User {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", roles=" + roles +
+                ", cryptocoinList=" + cryptocoinList +
                 '}';
     }
+
 }

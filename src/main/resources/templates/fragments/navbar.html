@@ -50,6 +50,7 @@
                             <div sec:authorize="isAuthenticated()">
                             <a class="dropdown-item" th:href="@{/user/profile}">Profile</a>
                             <a class="dropdown-item" th:href="@{/admin/userlist}" sec:authorize="hasAuthority('ADMIN')">Admin Panel</a>
+                            <a class="dropdown-item" th:href="@{/user/favorites}">Favorites</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" th:href="@{/logout}">Logout</a>
                             </div>

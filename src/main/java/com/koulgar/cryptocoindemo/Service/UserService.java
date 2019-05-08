@@ -11,9 +11,9 @@ public interface UserService extends UserDetailsService {
 
     User findByUsername(String username);
 
-    void save(FormUser formUser);
+    void saveFormUser(FormUser formUser);
 
-    void update(UpdateUser updateUser);
+    void updateUserFromUpdateUser(UpdateUser updateUser);
 
     User findById(int id);
 
@@ -26,5 +26,7 @@ public interface UserService extends UserDetailsService {
     Page<User> findAll(Pageable pageable);
 
     Page<User> findBySearch(String search, Pageable pageable);
+
+    void save(User user);
 
 }

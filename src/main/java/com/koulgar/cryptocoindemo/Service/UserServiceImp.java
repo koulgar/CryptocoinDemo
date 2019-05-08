@@ -34,7 +34,7 @@ public class UserServiceImp implements UserService {
         return userDao.findByUsername(username);
     }
 
-    public void save(FormUser formUser) {
+    public void saveFormUser(FormUser formUser) {
         User user;
         if(userDao.findByUsername(formUser.getUsername())!=null) {
             user = userDao.findByUsername(formUser.getUsername());
@@ -54,7 +54,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void update(UpdateUser updateUser) {
+    public void updateUserFromUpdateUser(UpdateUser updateUser) {
         User user = userDao.findById(updateUser.getId());
         user.setFirstName(updateUser.getFirstName());
         user.setLastName(updateUser.getLastName());
@@ -122,5 +122,10 @@ public class UserServiceImp implements UserService {
 
     public Page<User> findBySearch(String search, Pageable pageable) {
         return userDao.findBySearch(search,pageable);
+    }
+
+    @Override
+    public void save(User user) {
+        userDao.save(user);
     }
 }

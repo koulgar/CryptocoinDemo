@@ -40,7 +40,7 @@ public class RegistrationController {
             return "registration-form";
         }
 
-        userService.save(formUser);
+        userService.saveFormUser(formUser);
         return "redirect:/registration?success";
     }
 }

@@ -2,6 +2,7 @@ package com.koulgar.cryptocoindemo.Controller;
 
 import com.koulgar.cryptocoindemo.Entity.Cryptocoin;
 import com.koulgar.cryptocoindemo.Service.CryptocoinService;
+import com.koulgar.cryptocoindemo.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/coins")
@@ -20,6 +22,9 @@ public class CryptocoinController {
 
     @Autowired
     private CryptocoinService cryptocoinService;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/list")
     public String listCoins(HttpServletRequest request, Model model){
@@ -40,8 +45,13 @@ public class CryptocoinController {
     }
 
     @GetMapping("/list/details")
-    public String listCoinDetails(@RequestParam("coinRank") int rank, Model model){
+    public String listCoinDetails(@RequestParam("coinRank") int rank, Model model, Principal principal){
         Cryptocoin cryptocoin = cryptocoinService.findByRank(rank);
+        if(userService.findByUsername(principal.getName()).getCryptocoinList().contains(cryptocoin)) {
+            model.addAttribute("following", true);
+        } else {
+            model.addAttribute("follow",true);
+        }
         model.addAttribute("cryptocoin", cryptocoin);
         return "coindetails";
     }

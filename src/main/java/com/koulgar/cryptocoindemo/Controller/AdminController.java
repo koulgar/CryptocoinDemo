@@ -1,10 +1,8 @@
 package com.koulgar.cryptocoindemo.Controller;
 
-import com.koulgar.cryptocoindemo.Entity.FormUser;
 import com.koulgar.cryptocoindemo.Entity.UpdateUser;
 import com.koulgar.cryptocoindemo.Entity.User;
 import com.koulgar.cryptocoindemo.Service.UserService;
-import com.koulgar.cryptocoindemo.Validator.ValidEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import java.security.Principal;
 
 @Controller
@@ -58,10 +55,10 @@ public class AdminController{
     public String updateUserConfirm(@ModelAttribute("updateUser")@Valid UpdateUser updateUser,
                                       BindingResult result) {
         if (result.hasErrors()) {
-            return "/user-update-form";
+            return "/user-updateUserFromUpdateUser-form";
         }
 
-        userService.update(updateUser);
+        userService.updateUserFromUpdateUser(updateUser);
         return "redirect:/admin/userlist?success";
     }
 
@@ -106,12 +103,5 @@ public class AdminController{
         model.addAttribute("users", userService.findBySearch(search,PageRequest.of(page, size)));
         return "user-list";
     }
-
-    /*
-    TODO    0-add user roles to /admin/userlist page
-            1-add delete user option to admin panel (protected with admin password)
-            2-save user by admin should have email validation
-            3-add pageable search bar to /admin/userlist page
-    */
 
 }
