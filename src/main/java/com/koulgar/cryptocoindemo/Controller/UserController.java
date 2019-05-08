@@ -106,12 +106,8 @@ public class UserController {
         return "favorite-coin-list";
     }
 
-    /*TODO  1- in coindetails when user presses follow button, it suppose to change followed.
-            2- when pressed again it should unfollow that coin.
-            3- for that we need a follow button and add else function to /addFavorite controller
-            4- that if user already follows a coin it should unfollow.
-            5- add navbar button to see favorites
-            6- if favorites page has any favorite coins it will list them, if it doesnt page will say that its empty.
+    /*TODO  1- add follow button to favorites list and coin-list
+            2- if favorites page has any favorite coins it will list them, if it doesnt page will say that its empty.
      */
 }
 
