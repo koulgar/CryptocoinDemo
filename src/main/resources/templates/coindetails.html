@@ -82,8 +82,8 @@
                         </thead>
                     </tbody>
                 </table>
-                <a th:object="${unfollow}" th:if="${unfollow}" th:href="@{/user/addFavorite(coinRank=${cryptocoin.rank})}" class="btn btn-info">Unfollow</a>
-                <a th:object="${follow}" th:if="${follow}" th:href="@{/user/addFavorite(coinRank=${cryptocoin.rank})}" class="btn btn-primary">Follow</a>
+                <a th:if="${followList.contains(cryptocoin)}" th:href="@{/user/addCoinlistFavorite(coinRank=${cryptocoin.rank})}" class="btn btn-info">Unfollow</a>
+                <a th:if="${!(followList.contains(cryptocoin))}" th:href="@{/user/addCoinlistFavorite(coinRank=${cryptocoin.rank})}" class="btn btn-primary">Follow</a></td>
                 <button type="submit" value="Go Back" class="btn btn-danger" onclick="goBack()">Go Back</button>
             </div>
         </div>

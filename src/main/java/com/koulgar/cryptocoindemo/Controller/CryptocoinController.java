@@ -47,12 +47,10 @@ public class CryptocoinController {
     }
 
     @GetMapping("/list/details")
-    public String listCoinDetails(@RequestParam("coinRank") int rank, Model model, Principal principal){
+    public String listCoinDetails(@RequestParam("coinRank") int rank,HttpServletRequest request, Model model, Principal principal){
         Cryptocoin cryptocoin = cryptocoinService.findByRank(rank);
-        if(userService.findByUsername(principal.getName()).getCryptocoinList().contains(cryptocoin)) {
-            model.addAttribute("unfollow", true);
-        } else {
-            model.addAttribute("follow",true);
+        if(request.getUserPrincipal()!=null) {
+            model.addAttribute("followList", userService.findByUsername(principal.getName()).getCryptocoinList());
         }
         model.addAttribute("cryptocoin", cryptocoin);
         return "coindetails";
@@ -70,9 +68,7 @@ public class CryptocoinController {
         if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
             size = Integer.parseInt(request.getParameter("size"));
         }
-        if(request.getUserPrincipal()!=null) {
-            model.addAttribute("followList", userService.findByUsername(principal.getName()).getCryptocoinList());
-        }
+
         model.addAttribute("search",search);
         model.addAttribute("cryptocoins", cryptocoinService.findBySearch(search,PageRequest.of(page, size)));
         return "coin-list";

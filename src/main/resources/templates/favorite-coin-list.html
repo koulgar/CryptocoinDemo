@@ -32,6 +32,7 @@
                     <th>Symbol</th>
                     <th>Price USD</th>
                     <th>Price Bitcoin</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tr th:each="tempCryptocoin : ${cryptocoins}" >
@@ -40,6 +41,9 @@
                     <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.symbol}"   class="btn btn-light" ></a></td>
                     <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.priceUsd}" class="btn btn-light" ></a></td>
                     <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.priceBtc}" class="btn btn-light" ></a></td>
+                    <td>
+                    <a th:if="${followList.contains(tempCryptocoin)}" th:href="@{/user/addFavFavorite(coinRank=${tempCryptocoin.rank})}" class="btn btn-info">Unfollow</a>
+                    <a th:if="${!(followList.contains(tempCryptocoin))}" th:href="@{/user/addFavFavorite(coinRank=${tempCryptocoin.rank})}" class="btn btn-primary">Follow</a></td>
                 </tr>
             </table>
         </div>

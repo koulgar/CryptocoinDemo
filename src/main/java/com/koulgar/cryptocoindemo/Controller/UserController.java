@@ -99,6 +99,14 @@ public class UserController {
         return "redirect:/coins/list";
     }
 
+    //    ADD COIN LIST FAVORITE DATABASE CHECK
+    @RequestMapping("/addFavFavorite")
+    public String addFavFavorites(@RequestParam("coinRank")int rank,Principal principal){
+        User user = checkFavorite(rank, principal);
+        userService.save(user);
+        return "redirect:/user/favorites";
+    }
+
     public User checkFavorite(@RequestParam("coinRank") int rank, Principal principal) {
         User user = userService.findByUsername(principal.getName());
         List<Cryptocoin> cryptocoinList = user.getCryptocoinList();
@@ -112,13 +120,15 @@ public class UserController {
     }
 
     @GetMapping("/favorites")
-    public String showFavorites(Model model,Principal principal){
-        User user = userService.findByUsername(principal.getName());
-        List<Cryptocoin> cryptocoinList = user.getCryptocoinList();
+    public String showFavorites(HttpServletRequest request,Model model,Principal principal){
+        List<Cryptocoin> cryptocoinList = userService.findByUsername(principal.getName()).getCryptocoinList();
+        if(request.getUserPrincipal()!=null) {
+            model.addAttribute("followList", userService.findByUsername(principal.getName()).getCryptocoinList());
+        }
         model.addAttribute("cryptocoins",cryptocoinList);
         return "favorite-coin-list";
     }
-    
+
 }
 
 
