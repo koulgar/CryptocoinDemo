@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -83,19 +84,31 @@ public class UserController {
         return "redirect:/user/logout";
     }
 
+//    ADD FAVORITE DATABASE CHECK
     @RequestMapping("/addFavorite")
-    public String addCoinToFavorites(@RequestParam("coinRank")int rank,Principal principal){
+    public String addCoinToFavorites(@RequestParam("coinRank")int rank, HttpServletRequest request,Principal principal){
+        User user = checkFavorite(rank, principal);
+        userService.save(user);
+        return "redirect:/coins/list/details?coinRank=" + rank;
+    }
+//    ADD COIN LIST FAVORITE DATABASE CHECK
+    @RequestMapping("/addCoinlistFavorite")
+    public String addCoinListToFavorites(@RequestParam("coinRank")int rank,Principal principal){
+        User user = checkFavorite(rank, principal);
+        userService.save(user);
+        return "redirect:/coins/list";
+    }
+
+    public User checkFavorite(@RequestParam("coinRank") int rank, Principal principal) {
         User user = userService.findByUsername(principal.getName());
         List<Cryptocoin> cryptocoinList = user.getCryptocoinList();
-        if(!(user.getCryptocoinList().contains(cryptocoinService.findByRank(rank)))) {
+        if(!(cryptocoinList.contains(cryptocoinService.findByRank(rank)))) {
             cryptocoinList.add(cryptocoinService.findByRank(rank));
-            user.setCryptocoinList(cryptocoinList);
         } else {
             cryptocoinList.remove(cryptocoinService.findByRank(rank));
-            user.setCryptocoinList(cryptocoinList);
         }
-        userService.save(user);
-        return "redirect:/coins/list/details?coinRank="+rank;
+        user.setCryptocoinList(cryptocoinList);
+        return user;
     }
 
     @GetMapping("/favorites")
@@ -105,10 +118,7 @@ public class UserController {
         model.addAttribute("cryptocoins",cryptocoinList);
         return "favorite-coin-list";
     }
-
-    /*TODO  1- add follow button to favorites list and coin-list
-            2- if favorites page has any favorite coins it will list them, if it doesnt page will say that its empty.
-     */
+    
 }
 
 

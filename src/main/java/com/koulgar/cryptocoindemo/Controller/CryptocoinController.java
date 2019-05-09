@@ -27,7 +27,7 @@ public class CryptocoinController {
     private UserService userService;
 
     @RequestMapping("/list")
-    public String listCoins(HttpServletRequest request, Model model){
+    public String listCoins(HttpServletRequest request, Model model,Principal principal){
 
         int page = 0; //default page number is 0 (yes it is weird)
         int size = 20; //default page size is 10
@@ -39,7 +39,9 @@ public class CryptocoinController {
         if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
             size = Integer.parseInt(request.getParameter("size"));
         }
-
+        if(request.getUserPrincipal()!=null) {
+            model.addAttribute("followList", userService.findByUsername(principal.getName()).getCryptocoinList());
+        }
         model.addAttribute("cryptocoins", cryptocoinService.findAll(PageRequest.of(page, size)));
         return "coin-list";
     }
@@ -48,7 +50,7 @@ public class CryptocoinController {
     public String listCoinDetails(@RequestParam("coinRank") int rank, Model model, Principal principal){
         Cryptocoin cryptocoin = cryptocoinService.findByRank(rank);
         if(userService.findByUsername(principal.getName()).getCryptocoinList().contains(cryptocoin)) {
-            model.addAttribute("following", true);
+            model.addAttribute("unfollow", true);
         } else {
             model.addAttribute("follow",true);
         }
@@ -57,7 +59,7 @@ public class CryptocoinController {
     }
 
     @RequestMapping("/search")
-    public String searchCoins(@RequestParam("search")String search,HttpServletRequest request, Model model){
+    public String searchCoins(@RequestParam("search")String search,HttpServletRequest request, Model model,Principal principal){
         int page = 0; //default page number is 0 (yes it is weird)
         int size = 20; //default page size is 10
 
@@ -67,6 +69,9 @@ public class CryptocoinController {
 
         if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
             size = Integer.parseInt(request.getParameter("size"));
+        }
+        if(request.getUserPrincipal()!=null) {
+            model.addAttribute("followList", userService.findByUsername(principal.getName()).getCryptocoinList());
         }
         model.addAttribute("search",search);
         model.addAttribute("cryptocoins", cryptocoinService.findBySearch(search,PageRequest.of(page, size)));

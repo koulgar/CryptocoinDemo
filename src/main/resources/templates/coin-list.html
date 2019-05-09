@@ -27,11 +27,12 @@
             <table id="table-row" class="table table-bordered table-sm table-condensed table-hover">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Rank</th>
-                    <th scope="col">Coin Name</th>
-                    <th scope="col">Symbol</th>
-                    <th scope="col">Price USD</th>
-                    <th scope="col">Price Bitcoin</th>
+                    <th>Rank</th>
+                    <th>Coin Name</th>
+                    <th>Symbol</th>
+                    <th>Price USD</th>
+                    <th>Price Bitcoin</th>
+                    <th th:if="${#strings.contains(#httpServletRequest.requestURI, 'list')} and ${!#strings.contains(#httpServletRequest.requestURI, 'search')}">Action</th>
                 </tr>
                 </thead>
                 <tr th:each="tempCryptocoin : ${cryptocoins}" >
@@ -40,6 +41,9 @@
                     <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.symbol}"   class="btn btn-light" ></a></td>
                     <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.priceUsd}" class="btn btn-light" ></a></td>
                     <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.priceBtc}" class="btn btn-light" ></a></td>
+                    <td th:if="${#strings.contains(#httpServletRequest.requestURI, 'list')} and ${!#strings.contains(#httpServletRequest.requestURI, 'search')}">
+                    <a th:if="${followList.contains(tempCryptocoin)}" th:href="@{/user/addCoinlistFavorite(coinRank=${tempCryptocoin.rank})}" class="btn btn-info">Unfollow</a>
+                    <a th:if="${!(followList.contains(tempCryptocoin))}" th:href="@{/user/addCoinlistFavorite(coinRank=${tempCryptocoin.rank})}" class="btn btn-primary">Follow</a></td>
                 </tr>
             </table>
         </div>
