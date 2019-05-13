@@ -17,16 +17,15 @@
     <div class="card-header" th:align="center"><h4>Favorite Cryptocoin List</h4></div>
     <div class="card-body">
 <div class="container">
-<!--    <form th:align="right" th:object="${search}" th:action="@{/coins/search}" method="get">-->
-<!--            <input type="text" name="search" id="search" placeholder="Coin Name or Symbol"/>-->
-<!--            <button type="submit" value="Search"class="btn btn-dark">Search</button>-->
-<!--            <br>-->
-<!--            <br>-->
-<!--        </form>-->
+    <form id="search-bar" th:align="right" method="get">
+            <input type="text" name="search" id="search" placeholder="Search coins.."/>
+            <br>
+            <br>
+        </form>
             <div class="container">
             <table id="table-row" class="table table-bordered table-sm table-condensed table-hover">
                 <thead class="thead-dark">
-                <tr>
+                <tr th:align="center">
                     <th>Rank</th>
                     <th>Coin Name</th>
                     <th>Symbol</th>
@@ -35,72 +34,55 @@
                     <th>Action</th>
                 </tr>
                 </thead>
-                <tr th:each="tempCryptocoin : ${cryptocoins}" >
-                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.rank}"     class="btn btn-light" ></a></td>
-                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.name}"     class="btn btn-light" ></a></td>
-                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.symbol}"   class="btn btn-light" ></a></td>
-                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.priceUsd}" class="btn btn-light" ></a></td>
-                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.priceBtc}" class="btn btn-light" ></a></td>
-                    <td>
-                    <a th:if="${followList.contains(tempCryptocoin)}" th:href="@{/user/addFavFavorite(coinRank=${tempCryptocoin.rank})}" class="btn btn-info">Unfollow</a>
-                    <a th:if="${!(followList.contains(tempCryptocoin))}" th:href="@{/user/addFavFavorite(coinRank=${tempCryptocoin.rank})}" class="btn btn-primary">Follow</a></td>
+                <tbody>
+                <tr th:class="clickable-row" onload="cursor()" th:data-href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:each="tempCryptocoin : ${cryptocoins}" >
+                    <td th:align="center"><a th:text="${tempCryptocoin.rank}"     ></a></td>
+                    <td th:align="left"  ><a th:text="${tempCryptocoin.name}"     ></a></td>
+                    <td th:align="center"><a th:text="${tempCryptocoin.symbol}"   ></a></td>
+                    <td th:align="center"><a th:text="${tempCryptocoin.priceUsd}" ></a></td>
+                    <td th:align="center"><a th:text="${tempCryptocoin.priceBtc}" ></a></td>
+                    <td th:align="center">
+                    <a th:if="${followList.contains(tempCryptocoin)}" th:href="@{/user/addFavorite(coinRank=${tempCryptocoin.rank})}"><i class="fas fa-heart fa-2x"></i></a>
+                    <a th:if="${!(followList.contains(tempCryptocoin))}" th:href="@{/user/addFavorite(coinRank=${tempCryptocoin.rank})}"><i class="far fa-heartfa-2x"></i></a></td>
                 </tr>
+                </tbody>
             </table>
         </div>
 </div>
-<!--    &lt;!&ndash; cryptocoins pagination &ndash;&gt;-->
-<!--    <div th:if="${#strings.contains(#httpServletRequest.requestURI, 'list')} and ${!#strings.contains(#httpServletRequest.requestURI, 'search')}">-->
-<!--        <nav aria-label="Pagination" th:if="${cryptocoins.totalPages gt 0}">-->
-<!--            <ul class="pagination justify-content-center font-weight-bold">-->
-<!--                <li class="page-item" th:classappend="${cryptocoins.number eq 0} ? 'disabled'">-->
-<!--                    <a class="page-link"-->
-<!--                       th:href="@{/coins/list?page={id}(id=${cryptocoins.number lt 2 ? 1 : cryptocoins.number})}"-->
-<!--                       aria-label="Previous" title="Previous Page" data-toggle="tooltip">-->
-<!--                        <span aria-hidden="true">&laquo;</span>-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--                <li class="page-item" th:classappend="${i eq cryptocoins.number + 1} ? 'active'"-->
-<!--                    th:each="i : ${#numbers.sequence( 1, cryptocoins.totalPages, 1)}">-->
-<!--                    <a class="page-link" th:href="@{/coins/list?page={id}(id=${i})}" th:text="${i}"-->
-<!--                       th:title="${'Page '+ i}" data-toggle="tooltip"></a>-->
-<!--                </li>-->
-<!--                <li class="page-item" th:classappend="${cryptocoins.number + 1 eq cryptocoins.totalPages} ? 'disabled'">-->
-<!--                    <a class="page-link"-->
-<!--                       th:href="@{/coins/list?page={id}(id=${cryptocoins.number + 2})}"-->
-<!--                       aria-label="Next" title="Next Page" data-toggle="tooltip">-->
-<!--                        <span aria-hidden="true">&raquo;</span>-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </nav>-->
-<!--    </div>-->
-<!--    <div th:if="${#strings.contains(#httpServletRequest.requestURI, 'search')}">-->
-<!--        <nav aria-label="Pagination" th:if="${cryptocoins.totalPages gt 0}">-->
-<!--            <ul class="pagination justify-content-center font-weight-bold">-->
-<!--                <li class="page-item" th:classappend="${cryptocoins.number eq 0} ? 'disabled'">-->
-<!--                    <a class="page-link"-->
-<!--                       th:href="@{'/coins/search?page='+${cryptocoins.number lt 2 ? 1 : cryptocoins.number}+'&amp;search='+${search}}"-->
-<!--                       aria-label="Previous" title="Previous Page" data-toggle="tooltip">-->
-<!--                        <span aria-hidden="true">&laquo;</span>-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--                <li class="page-item" th:classappend="${i eq cryptocoins.number + 1} ? 'active'"-->
-<!--                    th:each="i : ${#numbers.sequence( 1, cryptocoins.totalPages, 1)}">-->
-<!--                    <a class="page-link" th:href="@{'/coins/search?page='+${i}+'&amp;search='+${search}}" th:text="${i}"-->
-<!--                       th:title="${'Page '+ i}" data-toggle="tooltip"></a>-->
-<!--                </li>-->
-<!--                <li class="page-item" th:classappend="${cryptocoins.number + 1 eq cryptocoins.totalPages} ? 'disabled'">-->
-<!--                    <a class="page-link"-->
-<!--                       th:href="@{'/coins/search?page='+${cryptocoins.number + 2}+'&amp;search='+${search}}"-->
-<!--                       aria-label="Next" title="Next Page" data-toggle="tooltip">-->
-<!--                        <span aria-hidden="true">&raquo;</span>-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </nav>-->
-<!--    </div>-->
 
     </div>
 </div>
 </body>
+<script>
+    jQuery(document).ready(function($) {
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+        });
+    });
+
+    function cursor($){
+        $(".clickable-row").style.cursor = "pointer";
+    }
+
+    var table = document.querySelector('tbody');
+
+    var searchInput = document.querySelector('#search-bar input');
+
+    searchInput.addEventListener('keyup', function(e) {
+
+        var searchChar = e.target.value.toUpperCase();
+
+        var rows = table.getElementsByTagName('tr');
+
+        Array.from(rows).forEach(function(row) {
+            var parText = row.textContent;
+
+            if(parText.toUpperCase().indexOf(searchChar) !== -1) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
 </html>

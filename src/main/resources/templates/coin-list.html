@@ -4,9 +4,9 @@
 <div th:replace="fragments/navbar :: imports"></div>
 <div th:replace="fragments/navbar :: background"></div>
 <div th:replace="fragments/navbar :: navbar"></div>
+<meta http-equiv="refresh" content="60" >
 <head>
     <title>Coins List - KouLGaR</title>
-    <meta http-equiv="refresh" content="60" >
 </head>
 <body>
 <br>
@@ -17,7 +17,7 @@
     <div class="card-header" th:align="center"><h4>Top 100 - Cryptocoin List</h4></div>
     <div class="card-body">
 <div class="container">
-    <form th:align="right" th:object="${search}" th:action="@{/coins/search}" method="get">
+    <form id="search-bar" th:align="right" th:object="${search}" th:action="@{/coins/search}" method="get">
             <input type="text" name="search" id="search" placeholder="Coin Name or Symbol"/>
             <button type="submit" value="Search"class="btn btn-dark">Search</button>
             <br>
@@ -26,25 +26,35 @@
             <div class="container">
             <table id="table-row" class="table table-bordered table-sm table-condensed table-hover">
                 <thead class="thead-dark">
-                <tr>
-                    <th>Rank</th>
-                    <th>Coin Name</th>
-                    <th>Symbol</th>
-                    <th>Price USD</th>
-                    <th>Price Bitcoin</th>
-                    <th th:if="${#strings.contains(#httpServletRequest.requestURI, 'list')} and ${!#strings.contains(#httpServletRequest.requestURI, 'search')}">Action</th>
+                <tr th:align="center">
+                    <th align="center">Rank</th>
+                    <th align="center">Coin Name</th>
+                    <th align="center">Symbol</th>
+                    <th align="center">Price USD</th>
+                    <th align="center">Price Bitcoin</th>
+                    <div sec:authorize="isAuthenticated()">
+                    <th th:align="center" th:if="${#strings.contains(#httpServletRequest.requestURI, 'list')} and ${!#strings.contains(#httpServletRequest.requestURI, 'search')}">Action</th>
+                    <th th:align="center" th:if="${#strings.contains(#httpServletRequest.requestURI, 'search')}">Action</th>
+                    </div>
                 </tr>
                 </thead>
-                <tr th:each="tempCryptocoin : ${cryptocoins}" >
-                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.rank}"     class="btn btn-light" ></a></td>
-                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.name}"     class="btn btn-light" ></a></td>
-                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.symbol}"   class="btn btn-light" ></a></td>
-                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.priceUsd}" class="btn btn-light" ></a></td>
-                    <td><a th:href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:text="${tempCryptocoin.priceBtc}" class="btn btn-light" ></a></td>
-                    <td th:if="${#strings.contains(#httpServletRequest.requestURI, 'list')} and ${!#strings.contains(#httpServletRequest.requestURI, 'search')}">
-                    <a th:if="${followList.contains(tempCryptocoin)}" th:href="@{/user/addCoinlistFavorite(coinRank=${tempCryptocoin.rank})}" class="btn btn-info">Unfollow</a>
-                    <a th:if="${!(followList.contains(tempCryptocoin))}" th:href="@{/user/addCoinlistFavorite(coinRank=${tempCryptocoin.rank})}" class="btn btn-primary">Follow</a></td>
+                <tbody>
+                <tr class="clickable-row" onload="cursor()" th:data-href="@{/coins/list/details(coinRank=${tempCryptocoin.rank})}" th:each="tempCryptocoin : ${cryptocoins}">
+                    <td th:align="center"><a th:text="${tempCryptocoin.rank}"     ></a></td>
+                    <td th:align="left"  ><a th:text="${tempCryptocoin.name}"       ></a></td>
+                    <td th:align="center"><a th:text="${tempCryptocoin.symbol}"   ></a></td>
+                    <td th:align="center"><a th:text="${tempCryptocoin.priceUsd}" ></a></td>
+                    <td th:align="center"><a th:text="${tempCryptocoin.priceBtc}" ></a></td>
+                    <div sec:authorize="isAuthenticated()">
+                    <td th:align="center" th:if="${#strings.contains(#httpServletRequest.requestURI, 'list')} and ${!#strings.contains(#httpServletRequest.requestURI, 'search')}">
+                    <a th:if="${followList.contains(tempCryptocoin)}" th:href="@{/user/addFavorite(coinRank=${tempCryptocoin.rank})}"><i class="fas fa-heart fa-2x"></i></a>
+                    <a th:if="${!(followList.contains(tempCryptocoin))}" th:href="@{/user/addFavorite(coinRank=${tempCryptocoin.rank})}" ><i class="far fa-heart fa-2x"></i></a></td>
+                    <td th:align="center" th:if="${#strings.contains(#httpServletRequest.requestURI, 'search')}">
+                        <a th:if="${followList.contains(tempCryptocoin)}" th:href="@{/user/addFavorite(coinRank=${tempCryptocoin.rank})}"><i class="fas fa-heart fa-2x"></i></a>
+                        <a th:if="${!(followList.contains(tempCryptocoin))}" th:href="@{/user/addFavorite(coinRank=${tempCryptocoin.rank})}"><i class="far fa-heart fa-2x"></i></a></td>
+                    </div>
                 </tr>
+                </tbody>
             </table>
         </div>
 </div>
@@ -103,4 +113,16 @@
     </div>
 </div>
 </body>
+<script>
+    jQuery(document).ready(function($) {
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+        });
+    });
+
+    function cursor($){
+        $(".clickable-row").style.cursor = "pointer";
+    }
+
+</script>
 </html>

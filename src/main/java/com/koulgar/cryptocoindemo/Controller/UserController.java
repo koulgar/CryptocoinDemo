@@ -89,22 +89,7 @@ public class UserController {
     public String addCoinToFavorites(@RequestParam("coinRank")int rank, HttpServletRequest request,Principal principal){
         User user = checkFavorite(rank, principal);
         userService.save(user);
-        return "redirect:/coins/list/details?coinRank=" + rank;
-    }
-//    ADD COIN LIST FAVORITE DATABASE CHECK
-    @RequestMapping("/addCoinlistFavorite")
-    public String addCoinListToFavorites(@RequestParam("coinRank")int rank,Principal principal){
-        User user = checkFavorite(rank, principal);
-        userService.save(user);
-        return "redirect:/coins/list";
-    }
-
-    //    ADD COIN LIST FAVORITE DATABASE CHECK
-    @RequestMapping("/addFavFavorite")
-    public String addFavFavorites(@RequestParam("coinRank")int rank,Principal principal){
-        User user = checkFavorite(rank, principal);
-        userService.save(user);
-        return "redirect:/user/favorites";
+        return "redirect:"+request.getHeader("referer");
     }
 
     public User checkFavorite(@RequestParam("coinRank") int rank, Principal principal) {
