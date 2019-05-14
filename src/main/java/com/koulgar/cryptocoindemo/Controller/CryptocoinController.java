@@ -26,11 +26,11 @@ public class CryptocoinController {
     @Autowired
     private UserService userService;
 
-    int page = 0; //default page number is 0 (yes it is weird)
-    int size = 20; //default page size is 10
-
     @GetMapping("/list")
     public String listCoins(HttpServletRequest request, Model model,Principal principal){
+
+        int page = 0; //default page number is 0 (yes it is weird)
+        int size = 20; //default page size is 10
 
         if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
             page = Integer.parseInt(request.getParameter("page")) - 1;
@@ -39,6 +39,7 @@ public class CryptocoinController {
         if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
             size = Integer.parseInt(request.getParameter("size"));
         }
+
         addFollowListToModel(request, model, principal);
         model.addAttribute("cryptocoins", cryptocoinService.findAll(PageRequest.of(page, size)));
         return "coin-list";
@@ -52,14 +53,11 @@ public class CryptocoinController {
         return "coindetails";
     }
 
-    public void addFollowListToModel(HttpServletRequest request, Model model, Principal principal) {
-        if (request.getUserPrincipal() != null) {
-            model.addAttribute("followList", userService.findByUsername(principal.getName()).getCryptocoinList());
-        }
-    }
-
     @RequestMapping("/search")
     public String searchCoins(@RequestParam("search")String search,HttpServletRequest request, Model model,Principal principal){
+
+        int page = 0; //default page number is 0 (yes it is weird)
+        int size = 20; //default page size is 10
 
         if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
             page = Integer.parseInt(request.getParameter("page")) - 1;
@@ -68,12 +66,17 @@ public class CryptocoinController {
         if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
             size = Integer.parseInt(request.getParameter("size"));
         }
+
         addFollowListToModel(request, model, principal);
         model.addAttribute("search",search);
         model.addAttribute("cryptocoins", cryptocoinService.findBySearch(search,PageRequest.of(page, size)));
         return "coin-list";
     }
 
-
+    public void addFollowListToModel(HttpServletRequest request, Model model, Principal principal) {
+        if (request.getUserPrincipal() != null) {
+            model.addAttribute("followList", userService.findByUsername(principal.getName()).getCryptocoinList());
+        }
+    }
 
 }

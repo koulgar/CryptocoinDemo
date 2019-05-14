@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
 
 @Entity
 @Table(name="Cryptocoin")
@@ -109,48 +110,58 @@ public class Cryptocoin {
         this.priceUsd = priceUsd;
     }
 
-    public Double getPriceBtc() {
-        return priceBtc;
+    public String getPriceBtc() {
+        DecimalFormat decimalFormat = new DecimalFormat("0.0000000000");
+        return decimalFormat.format(priceBtc);
     }
 
     public void setPriceBtc(Double priceBtc) {
         this.priceBtc = priceBtc;
     }
 
-    public Double getDailyVolumeUsd() {
-        return dailyVolumeUsd;
+    public String getDailyVolumeUsd() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00 $");
+        return decimalFormat.format(dailyVolumeUsd);
     }
 
     public void setDailyVolumeUsd(Double dailyVolumeUsd) {
         this.dailyVolumeUsd = dailyVolumeUsd;
     }
 
-    public Double getMarketCapUsd() {
-        return marketCapUsd;
+    public String getMarketCapUsd() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00 $");
+        return decimalFormat.format(marketCapUsd);
     }
 
     public void setMarketCapUsd(Double marketCapUsd) {
         this.marketCapUsd = marketCapUsd;
     }
 
-    public Double getAvailableSupply() {
-        return availableSupply;
+    public String getAvailableSupply() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        return decimalFormat.format(availableSupply);
     }
 
     public void setAvailableSupply(Double availableSupply) {
         this.availableSupply = availableSupply;
     }
 
-    public Double getTotalSupply() {
-        return totalSupply;
+    public String getTotalSupply() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        return decimalFormat.format(totalSupply);
     }
 
     public void setTotalSupply(Double totalSupply) {
         this.totalSupply = totalSupply;
     }
 
-    public Double getMaxSupply() {
-        return maxSupply;
+    public String getMaxSupply() {
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+        if(maxSupply!=null) {
+            return decimalFormat.format(maxSupply);
+        } else {
+            return "-";
+        }
     }
 
     public void setMaxSupply(Double maxSupply) {
