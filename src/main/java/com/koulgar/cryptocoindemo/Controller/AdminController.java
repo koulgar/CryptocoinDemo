@@ -55,7 +55,7 @@ public class AdminController{
     public String updateUserConfirm(@ModelAttribute("updateUser")@Valid UpdateUser updateUser,
                                       BindingResult result) {
         if (result.hasErrors()) {
-            return "/user-updateUserFromUpdateUser-form";
+            return "/user-update-form";
         }
 
         userService.updateUserFromUpdateUser(updateUser);
