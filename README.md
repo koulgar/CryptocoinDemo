@@ -1,4 +1,4 @@
-# cryptocoindemo
+# CryptocoinDemo
 Cryptocoin Demo Project Deployment with Spring Boot + MySQL to Azure
 
 Creating Azure Database for MySQL Servers
