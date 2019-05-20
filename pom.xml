@@ -82,6 +82,37 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+<!--            <plugin>-->
+<!--                <groupId>com.microsoft.azure</groupId>-->
+<!--                <artifactId>azure-webapp-maven-plugin</artifactId>-->
+<!--                <version>RELEASE</version>-->
+<!--                <configuration>-->
+<!--                    &lt;!&ndash; Specify v2 schema &ndash;&gt;-->
+<!--                    <schemaVersion>v2</schemaVersion>-->
+<!--                    &lt;!&ndash; App information &ndash;&gt;-->
+<!--                    <subscriptionId>eedfe8c0-8d81-49b6-9250-2036a4bb2c83</subscriptionId>-->
+<!--                    <resourceGroup>KoulgarCoinApp</resourceGroup>-->
+<!--                    <appName>KoulgarCoinDemo</appName>-->
+<!--                    <region>West Europe</region>-->
+
+<!--                    &lt;!&ndash; Java Runtime Stack for App on Linux&ndash;&gt;-->
+<!--                    <runtime>-->
+<!--                        <os>linux</os>-->
+<!--                        <javaVersion>jre8</javaVersion>-->
+<!--                        <webContainer>tomcat 8.5</webContainer>-->
+<!--                    </runtime>-->
+<!--                    <deployment>-->
+<!--                        <resources>-->
+<!--                            <resource>-->
+<!--                                <directory>/home/dogu/IdeaProjects/cryptocoindemo/target</directory>-->
+<!--                                <includes>-->
+<!--                                    <include>*.jar</include>-->
+<!--                                </includes>-->
+<!--                            </resource>-->
+<!--                        </resources>-->
+<!--                    </deployment>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 

@@ -42,7 +42,6 @@ public class UserController {
         User user = userService.findByUsername(principal.getName());
         FormUser formUser = userService.userToFormUser(user);
         model.addAttribute("formUser",formUser);
-
         return "user-update-form";
     }
 
@@ -50,7 +49,7 @@ public class UserController {
     public String registerUserAccount(@ModelAttribute("formUser") @Valid FormUser formUser,
                                       BindingResult result) {
         if (result.hasErrors()) {
-            return "/user-updateUserFromUpdateUser-form";
+            return "user-update-form";
         }
 
         userService.saveFormUser(formUser);
