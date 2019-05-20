@@ -16,14 +16,14 @@ This will allow your MySQL Workbench to connect Azure Database after you.
 11. Go to Connection Strings.
 12. Copy your server url to your app (we used JDBC).
 
-Go to MySQL Workbench
+##Go to MySQL Workbench
 1. Host name (serverName).mysql.database.azure.com
 2. Create new server with username and password which you created.
 (which Azure Database for MySQL Server --> Overview page has hostname and your username will be Server Admin login name.)
 3. Port: enter your app port (we used 3306)
 4. Test Connection if you get successful go to next step.
 
-Deploying App with Azure Toolkit for IntelliJ Plugin
+##Deploying App with Azure Toolkit for IntelliJ Plugin
 1. If you dont have this plugin please install to your intellij.
 2. Right click to your project -> Azure -> Deploy to Azure.
 3. Name: create your configuration name.
